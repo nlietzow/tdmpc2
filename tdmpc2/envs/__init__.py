@@ -11,7 +11,7 @@ def make_multitask_env(cfg):
     """
     Make a multi-task environment for TD-MPC2 experiments.
     """
-    print('Creating multi-task environment with tasks:', cfg.tasks)
+    print("Creating multi-task environment with tasks:", cfg.tasks)
     envs = []
     for task in cfg.tasks:
         _cfg = deepcopy(cfg)
@@ -19,7 +19,7 @@ def make_multitask_env(cfg):
         _cfg.multitask = False
         env = make_env(_cfg)
         if env is None:
-            raise ValueError('Unknown task:', task)
+            raise ValueError("Unknown task:", task)
         envs.append(env)
     env = MultitaskWrapper(cfg, envs)
     cfg.obs_shapes = env._obs_dims
@@ -42,7 +42,7 @@ def make_env(cfg):
     try:  # Dict
         cfg.obs_shape = {k: v.shape for k, v in env.observation_space.spaces.items()}
     except:  # Box
-        cfg.obs_shape = {cfg.get('obs', 'state'): env.observation_space.shape}
+        cfg.obs_shape = {cfg.get("obs", "state"): env.observation_space.shape}
     cfg.action_dim = env.action_space.shape[0]
     cfg.episode_length = env.max_episode_steps
     cfg.seed_steps = max(1000, 5 * cfg.episode_length)
