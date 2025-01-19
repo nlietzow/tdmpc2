@@ -59,12 +59,11 @@ def evaluate(cfg: dict):
 
     # Load agent
     agent = TDMPC2(cfg)
-    checkpoint_path = Path(cfg.checkpoint).resolve().absolute()
-
+    checkpoint_path = Path(__file__).parent.parent / "checkpoints" / "final.pt"
     if not checkpoint_path.exists():
         raise FileNotFoundError(f"Checkpoint {checkpoint_path} not found!")
 
-    agent.load(cfg.checkpoint)
+    agent.load(str(checkpoint_path.resolve().absolute()))
 
     # Evaluate
     if cfg.multitask:
