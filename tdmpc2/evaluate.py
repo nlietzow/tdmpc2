@@ -10,6 +10,7 @@ import imageio
 import numpy as np
 import torch
 from termcolor import colored
+from pathlib import Path
 
 from common.parser import parse_cfg
 from common.seed import set_seed
@@ -58,9 +59,11 @@ def evaluate(cfg: dict):
 
     # Load agent
     agent = TDMPC2(cfg)
-    assert os.path.exists(
-        cfg.checkpoint
-    ), f"Checkpoint {cfg.checkpoint} not found! Must be a valid filepath."
+    checkpoint_path = Path(cfg.checkpoint).resolve().absolute()
+
+    if not checkpoint_path.exists():
+        raise FileNotFoundError(f"Checkpoint {checkpoint_path} not found!")
+
     agent.load(cfg.checkpoint)
 
     # Evaluate
