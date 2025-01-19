@@ -7,6 +7,7 @@ from hockey import hockey_env
 class HockeyEnvAdapter(hockey_env.HockeyEnv_BasicOpponent):
     def step(self, action):
         obs, reward, done, truncated, info = super().step(action)
+        info["success"] = info.get("winner", 0) == 1
         return obs, reward, done or truncated, info
 
     def reset(self, one_starting=None, mode=None, seed=None, options=None):
