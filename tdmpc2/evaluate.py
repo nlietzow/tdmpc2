@@ -94,6 +94,11 @@ def evaluate(cfg: dict):
                 t += 1
                 if cfg.save_video:
                     frames.append(env.render())
+
+            print(f"Episode {i+1}/{cfg.eval_episodes} completed")
+            print(f"Reward: {ep_reward}")
+            print(info)
+
             ep_rewards.append(ep_reward)
             ep_successes.append(info["success"])
             if cfg.save_video:
